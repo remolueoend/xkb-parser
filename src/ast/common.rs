@@ -4,6 +4,14 @@ use pest_ast::FromPest;
 
 #[derive(Derivative, FromPest, Clone, PartialEq)]
 #[derivative(Debug)]
+#[pest_ast(rule(Rule::root))]
+pub enum Root<'src> {
+    KeyMap(XkbKeyMap<'src>),
+    Definitions(Vec<Definition<'src>>),
+}
+
+#[derive(Derivative, FromPest, Clone, PartialEq)]
+#[derivative(Debug)]
 #[pest_ast(rule(Rule::xkb_keymap))]
 pub struct XkbKeyMap<'src> {
     pub definitions: Vec<Definition<'src>>,

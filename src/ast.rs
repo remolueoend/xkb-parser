@@ -6,8 +6,7 @@ use pest_ast::FromPest;
 #[derivative(Debug)]
 #[pest_ast(rule(Rule::file))]
 pub struct File<'src> {
-    pub keymap: XkbKeyMap<'src>,
-    #[derivative(Debug = "ignore")]
+    pub root: Root<'src>,
     eoi: EOI,
 }
 

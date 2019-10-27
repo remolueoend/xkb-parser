@@ -1,4 +1,5 @@
-file = { SOI ~ xkb_keymap ~ EOI }
+file = { SOI ~ root ~ EOI }
+    root = {xkb_keymap | (definition)*}
     xkb_keymap = {^"xkb_keymap" ~ "{" ~ (definition)* ~ "}" ~ ";"}
     definition = { block_modifiers ~ directive }
 
