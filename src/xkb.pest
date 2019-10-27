@@ -1,4 +1,5 @@
-file = { SOI ~ (definition)* ~ EOI }
+file = { SOI ~ xkb_keymap ~ EOI }
+    xkb_keymap = {^"xkb_keymap" ~ "{" ~ (definition)* ~ "}" ~ ";"}
     definition = { block_modifiers ~ directive }
 
     block_modifiers = { block_modifier* }
@@ -56,7 +57,8 @@ file = { SOI ~ (definition)* ~ EOI }
             compat_indicator_line = { ^"indicator" ~ "." ~ ident ~ "=" ~ ident ~ ";" }
             compat_interpret_block = { ^"interpret" ~ key_combo ~ interpret_condition? ~ "{" ~ (interpret_item)* ~ "}" ~ ";" }
                 interpret_condition = _{ "(" ~ key_combo ~ ")" }
-                interpret_item = { compat_action | compat_modifier | use_mod_map_mods }
+                interpret_item = { compat_repeat | compat_action | compat_modifier | use_mod_map_mods }
+                    compat_repeat = { ^"repeat" ~ "=" ~ boolean ~ ";" }
                     compat_action = { ^"action" ~ "=" ~ action ~ ";" }
                     compat_modifier = { ^"virtualModifier" ~ "=" ~ ident ~ ";" }
                     use_mod_map_mods = { ^"useModMapMods" ~ "=" ~ ident ~ ";" }
@@ -155,7 +157,7 @@ file = { SOI ~ (definition)* ~ EOI }
     virtual_modifiers = { ^"virtual_modifiers" ~ (key_combo ~ ARRAY_SEP?)+ ~ ";" }
     action = { ident ~ "(" ~ (action_param ~ (ARRAY_SEP ~ action_param)*)? ~ ")" }
         action_param = { param_assignment | param_expression }
-            param_assignment = { ident ~ "=" ~ param_expression }
+            param_assignment = { param_ident ~ "=" ~ param_expression }
             param_expression = { negation | ( "+" ~ integer ) | key_combo | string }
 
 WHITESPACE = _{ " " | "\t" | NEWLINE }
@@ -164,6 +166,7 @@ ARRAY_SEP = _{ "," ~ "\n"? }
 
 // identifier types
 ident = @{ (ASCII_ALPHANUMERIC | "_" | "-" )+ }
+param_ident = @{ (ASCII_ALPHANUMERIC | "_" | "-" | ("[" ~ integer ~ "]") )+ }
 symbol = _{ "<" ~ symbol_name ~ ">" }
     symbol_name = @{ (ASCII_ALPHANUMERIC | "_" | "-" | "+" )+ }
 group = { "[" ~ ident ~ "]" }

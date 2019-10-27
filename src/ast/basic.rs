@@ -5,8 +5,24 @@ use shrinkwraprs::Shrinkwrap;
 
 #[derive(Derivative, Shrinkwrap, FromPest, Clone, PartialEq)]
 #[derivative(Debug = "transparent")]
+#[pest_ast(rule(Rule::boolean))]
+pub struct Boolean {
+    #[pest_ast(outer(with(span_into_bool)))]
+    pub content: bool,
+}
+
+#[derive(Derivative, Shrinkwrap, FromPest, Clone, PartialEq)]
+#[derivative(Debug = "transparent")]
 #[pest_ast(rule(Rule::ident))]
 pub struct Ident<'src> {
+    #[pest_ast(outer(with(span_into_str)))]
+    pub content: &'src str,
+}
+
+#[derive(Derivative, Shrinkwrap, FromPest, Clone, PartialEq)]
+#[derivative(Debug = "transparent")]
+#[pest_ast(rule(Rule::param_ident))]
+pub struct ParamIdent<'src> {
     #[pest_ast(outer(with(span_into_str)))]
     pub content: &'src str,
 }

@@ -214,7 +214,7 @@ fn test_ast_symbol() {
                     values: vec![Action {
                         name: Ident { content: "SetMods" },
                         params: vec![ActionParam::ParamAssignment(ParamAssignment {
-                            ident: Ident { content: "modifiers" },
+                            ident: ParamIdent { content: "modifiers" },
                             expr: ParamExpression { content: "Control" },
                         })],
                     }],

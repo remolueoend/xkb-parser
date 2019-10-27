@@ -5,6 +5,10 @@ pub(crate) fn span_into_str(span: Span) -> &str {
     span.as_str()
 }
 
+pub(crate) fn span_into_bool(span: Span) -> bool {
+    return if span_into_str(span) == "True" { true } else { false }
+}
+
 pub(crate) fn parse_u64(span: Span) -> u64 {
     let input = span.as_str();
     input

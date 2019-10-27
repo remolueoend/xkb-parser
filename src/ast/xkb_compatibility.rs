@@ -98,6 +98,8 @@ pub enum CompatInterpretItem<'src> {
     CompatModifier(CompatModifier<'src>),
     #[derivative(Debug = "transparent")]
     UseModMapMods(UseModMapMods<'src>),
+    #[derivative(Debug = "transparent")]
+    CompatRepeat(CompatRepeat),
 }
 
 #[derive(Derivative, FromPest, Clone, PartialEq)]
@@ -112,6 +114,13 @@ pub struct CompatAction<'src> {
 #[pest_ast(rule(Rule::compat_modifier))]
 pub struct CompatModifier<'src> {
     pub name: Ident<'src>,
+}
+
+#[derive(Derivative, FromPest, Clone, PartialEq)]
+#[derivative(Debug)]
+#[pest_ast(rule(Rule::compat_repeat))]
+pub struct CompatRepeat {
+    pub value: Boolean,
 }
 
 #[derive(Derivative, FromPest, Clone, PartialEq)]

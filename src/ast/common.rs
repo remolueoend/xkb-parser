@@ -4,6 +4,13 @@ use pest_ast::FromPest;
 
 #[derive(Derivative, FromPest, Clone, PartialEq)]
 #[derivative(Debug)]
+#[pest_ast(rule(Rule::xkb_keymap))]
+pub struct XkbKeyMap<'src> {
+    pub definitions: Vec<Definition<'src>>,
+}
+
+#[derive(Derivative, FromPest, Clone, PartialEq)]
+#[derivative(Debug)]
 #[pest_ast(rule(Rule::definition))]
 pub struct Definition<'src> {
     pub modifiers: BlockModifiers<'src>,
@@ -91,7 +98,7 @@ pub enum ActionParam<'src> {
 #[derivative(Debug)]
 #[pest_ast(rule(Rule::param_assignment))]
 pub struct ParamAssignment<'src> {
-    pub ident: Ident<'src>,
+    pub ident: ParamIdent<'src>,
     pub expr: ParamExpression<'src>,
 }
 
